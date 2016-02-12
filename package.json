@@ -1,0 +1,39 @@
+{
+  "name": "hubot-cdvi-atrium",
+  "description": "Control CDVI Atrium security systems",
+  "version": "0.0.0",
+  "author": "Stephen Yeargin <stephen.yeargin@gmail.com>",
+  "license": "MIT",
+  "keywords": "hubot, hubot-scripts, atrium, cdvi, door",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/hubot-scripts/hubot-cdvi-atrium.git"
+  },
+  "bugs": {
+    "url": "https://github.com/hubot-scripts/hubot-cdvi-atrium/issues"
+  },
+  "dependencies": {
+    "xml2js": "^0.4.16"
+  },
+  "peerDependencies": {
+    "hubot": "2.x"
+  },
+  "devDependencies": {
+    "chai": "^2.1.1",
+    "coffee-script": "1.6.3",
+    "grunt": "^0.4.5",
+    "grunt-cli": "^0.1.13",
+    "grunt-contrib-watch": "~0.6.1",
+    "grunt-mocha-test": "~0.12.7",
+    "grunt-release": "~0.11.0",
+    "hubot": "2.x",
+    "matchdep": "~0.3.0",
+    "mocha": "^2.1.0",
+    "sinon": "^1.13.0",
+    "sinon-chai": "^2.7.0"
+  },
+  "main": "index.coffee",
+  "scripts": {
+    "test": "grunt test"
+  }
+}
