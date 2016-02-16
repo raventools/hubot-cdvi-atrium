@@ -1,6 +1,8 @@
-# hubot-cdvi-atrium
+:construction: This package isn't working yet. :construction:
 
-Control CDVI atrium security systems
+# Hubot for CDVI Atrium
+
+Control CDVI Atrium security systems.
 
 See [`src/cdvi-atrium.coffee`](src/cdvi-atrium.coffee) for full documentation.
 

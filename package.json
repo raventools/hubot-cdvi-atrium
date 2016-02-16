@@ -7,10 +7,10 @@
   "keywords": "hubot, hubot-scripts, atrium, cdvi, door",
   "repository": {
     "type": "git",
-    "url": "git://github.com/hubot-scripts/hubot-cdvi-atrium.git"
+    "url": "git://github.com/stephenyeargin/hubot-cdvi-atrium.git"
   },
   "bugs": {
-    "url": "https://github.com/hubot-scripts/hubot-cdvi-atrium/issues"
+    "url": "https://github.com/stephenyeargin/hubot-cdvi-atrium/issues"
   },
   "dependencies": {
     "xml2js": "^0.4.16"
