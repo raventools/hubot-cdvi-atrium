@@ -50,23 +50,22 @@ module.exports = (robot) ->
           # Post credentials
           robot.logger.debug 'Taking key and posting it to get a cookie'
           postdata = "login_user=#{username}&login_pass=#{password}"
-          data = JSON.stringify(postdata)
           robot.http("#{atrium_url}/login.xml")
-            .post(data) (err, res, body) ->
+            .post(postdata) (err, res, body) ->
               return unless handleError msg, err
-              robot.logger.debug res
               parser.parseString body, (err, result) ->
                 return unless handleError msg, err
                 robot.logger.debug 'Posted credentials. Result:'
                 robot.logger.debug result
                 # Receive authenticated cookie
-                key = result['COOKIE']
+                key = result.LOGIN.KEY[0]
                 # Send encoded instruction
                 postdata = postEnc data, key
-                data = JSON.stringify(postdata)
+                robot.logger.debug postdata
                 robot.http("#{atrium_url}/doors.xml")
-                  .post(data) (err, res, body) ->
-                    return if handleError msg, err
+                  .post(postdata) (err, res, body) ->
+                    return unless handleError msg, err
+                    msg.send 'Door unlock sent!'
                     robot.logger.debug 'Posted command to open door. Result:'
                     robot.logger.debug body
 
