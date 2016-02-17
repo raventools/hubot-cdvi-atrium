@@ -30,7 +30,7 @@ module.exports = (robot) ->
       robot.logger.debug door
       webPost "doors_cmd=unlock_T&doors_id=#{door}", msg
 
-  webPost = (data, msg) ->
+  webPost = (command, msg) ->
     robot.logger.debug "Hitting up: #{atrium_url}/login.xml"
     parser = new xml2js.Parser()
     # Obtain login session ID
@@ -45,11 +45,12 @@ module.exports = (robot) ->
           # Build credentials
           key = result.LOGIN.KEY[0]
           username = rc4 key, process.env.HUBOT_ATRIUM_USERNAME
-          password = crypto.createHash('md5').update(process.env.HUBOT_ATRIUM_PASSWORD).digest("hex")
+          password = crypto.createHash('md5').update(key+process.env.HUBOT_ATRIUM_PASSWORD).digest("hex")
 
           # Post credentials
           robot.logger.debug 'Taking key and posting it to get a cookie'
           postdata = "login_user=#{username}&login_pass=#{password}"
+          robot.logger.debug postdata
           robot.http("#{atrium_url}/login.xml")
             .post(postdata) (err, res, body) ->
               return unless handleError msg, err
@@ -60,7 +61,8 @@ module.exports = (robot) ->
                 # Receive authenticated cookie
                 key = result.LOGIN.KEY[0]
                 # Send encoded instruction
-                postdata = postEnc data, key
+                robot.logger.debug command
+                postdata = postEnc command, key
                 robot.logger.debug postdata
                 robot.http("#{atrium_url}/doors.xml")
                   .post(postdata) (err, res, body) ->
