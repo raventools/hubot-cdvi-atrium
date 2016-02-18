@@ -1,7 +1,7 @@
 {
   "name": "hubot-cdvi-atrium",
   "description": "Control CDVI Atrium security systems",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "author": "Stephen Yeargin <stephen.yeargin@gmail.com>",
   "license": "MIT",
   "keywords": "hubot, hubot-scripts, atrium, cdvi, door",
