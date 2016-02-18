@@ -65,6 +65,7 @@ module.exports = (robot) ->
                 postdata = postEnc command, key
                 robot.logger.debug postdata
                 robot.http("#{atrium_url}/doors.xml")
+                  .header('Cookie', 'Session=' + key + '-00')
                   .post(postdata) (err, res, body) ->
                     return unless handleError msg, err
                     msg.send 'Door unlock sent!'
