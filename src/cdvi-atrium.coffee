@@ -41,6 +41,7 @@ module.exports = (robot) ->
           return unless handleError msg, err
           robot.logger.debug 'Retrieved session key. Result:'
           robot.logger.debug result
+          cookie = res.headers["set-cookie"]
       
           # Build credentials
           key = result.LOGIN.KEY[0]
@@ -52,12 +53,14 @@ module.exports = (robot) ->
           postdata = "login_user=#{username}&login_pass=#{password}"
           robot.logger.debug postdata
           robot.http("#{atrium_url}/login.xml")
+            .header('Cookie', cookie)
             .post(postdata) (err, res, body) ->
               return unless handleError msg, err
               parser.parseString body, (err, result) ->
                 return unless handleError msg, err
                 robot.logger.debug 'Posted credentials. Result:'
                 robot.logger.debug result
+                cookie =  res.headers["set-cookie"]
                 # Receive authenticated cookie
                 key = result.LOGIN.KEY[0]
                 # Send encoded instruction
@@ -65,7 +68,7 @@ module.exports = (robot) ->
                 postdata = postEnc command, key
                 robot.logger.debug postdata
                 robot.http("#{atrium_url}/doors.xml")
-                  .header('Cookie', 'Session=' + key + '-00')
+                  .header('Cookie', cookie)
                   .post(postdata) (err, res, body) ->
                     return unless handleError msg, err
                     msg.send 'Door unlock sent!'
