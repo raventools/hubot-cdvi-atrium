@@ -19,16 +19,38 @@ crypto = require 'crypto'
 module.exports = (robot) ->
   atrium_url = process.env.HUBOT_ATRIUM_URL
 
-  robot.respond /(door|door me|unlock)$/, (msg) ->
+  robot.respond /(door|door me)$/, (msg) ->
+    msg.send 'Sending access command ...'
+    sendAccessCommand msg
+
+  robot.respond /(door unlock|door open)$/, (msg) ->
     msg.send 'Sending unlock command ...'
     sendUnlockCommand msg
+
+  robot.respond /(door reset|door lock)$/, (msg) ->
+    msg.send 'Sending reset command ...'
+    sendResetCommand msg
+
+  sendAccessCommand = (msg) ->
+    doors = process.env.HUBOT_DOOR_IDS.split ','
+    robot.logger.debug doors
+    for door in doors
+      robot.logger.debug door
+      webPost "doors_cmd=unlock_T&doors_id=#{door}", msg
 
   sendUnlockCommand = (msg) ->
     doors = process.env.HUBOT_DOOR_IDS.split ','
     robot.logger.debug doors
     for door in doors
       robot.logger.debug door
-      webPost "doors_cmd=unlock_T&doors_id=#{door}", msg
+      webPost "doors_cmd=unlock&doors_id=#{door}", msg
+
+  sendResetCommand = (msg) ->
+    doors = process.env.HUBOT_DOOR_IDS.split ','
+    robot.logger.debug doors
+    for door in doors
+      robot.logger.debug door
+      webPost "doors_cmd=reset&doors_id=#{door}", msg
 
   webPost = (command, msg) ->
     robot.logger.debug "Hitting up: #{atrium_url}/login.xml"
@@ -42,7 +64,7 @@ module.exports = (robot) ->
           robot.logger.debug 'Retrieved session key. Result:'
           robot.logger.debug result
           cookie = res.headers["set-cookie"]
-      
+
           # Build credentials
           key = result.LOGIN.KEY[0]
           username = rc4 key, process.env.HUBOT_ATRIUM_USERNAME
@@ -71,7 +93,7 @@ module.exports = (robot) ->
                   .header('Cookie', cookie)
                   .post(postdata) (err, res, body) ->
                     return unless handleError msg, err
-                    msg.send 'Door unlock sent!'
+                    msg.send 'Door command sent!'
                     robot.logger.debug 'Posted command to open door. Result:'
                     robot.logger.debug body
 

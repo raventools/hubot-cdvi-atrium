@@ -45,10 +45,23 @@ The configuration variable instead would be the first part without the dashes, a
 
 ## Commands
 
-To unlock the door:
-
+To temporary unlock the door (like fob access):
 ```
-User> hubot door
+User> hubot door or User> hubot door me
+Hubot> Sending access command ...
+Hubot> Door command sent!
+```
+
+To set door to be unlocked until reset command sent
+```
+User> hubot door unlock  or User> hubot door open
 Hubot> Sending unlock command ...
-Hubot> Door unlock sent!
+Hubot> Door command sent!
+```
+
+To reset door to normal state
+```
+User> hubot door reset  or User> hubot door lock
+Hubot> Sending reset command ...
+Hubot> Door command sent!
 ```
