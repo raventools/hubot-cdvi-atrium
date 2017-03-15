@@ -93,7 +93,7 @@ module.exports = (robot) ->
                   .header('Cookie', cookie)
                   .post(postdata) (err, res, body) ->
                     return unless handleError msg, err
-                    msg.send 'Door unlock sent!'
+                    msg.send 'Door command sent!'
                     robot.logger.debug 'Posted command to open door. Result:'
                     robot.logger.debug body
 
